@@ -22,6 +22,7 @@
 		TARGET: '#fab005',
 		TARGET_LIT: '#dee2e6',
 		PADDLE: '#e64980',
+		HOLE: '#67c330',
 		PINBALL: '#dee2e6'
 	};
 	const GRAVITY = 0.75;
@@ -113,8 +114,9 @@
 		];
 
 		holes = [
-			hole(56+100, 405, 12),
-			hole(395-100, 405, 12)
+			hole(56+100, 405, 5),
+			hole(395-100, 405, 5),
+			// hole(425, 125, 15)
 		];
 
 		Matter.World.add(world, bumpers);
@@ -286,6 +288,31 @@
 			});
 		});
 
+		Matter.Events.on(engine, 'collisionEnd', function(event) {
+			let pairs = event.pairs;
+			pairs.forEach(function(pair) {
+				if (pair.bodyB.label === 'pinball' && pair.bodyA.label === 'hole') {
+					let pinball = pair.bodyB;
+					let hole = pair.bodyA;
+					hole.collisionFilter.group = stopperGroup;
+					Matter.Body.setVelocity(pinball, { x: 0, y: 0 });
+					Matter.Body.setPosition(pinball, {x: hole.position.x, y: hole.position.y});
+					world.gravity.y = 0;
+					setTimeout(function() {
+						let kick_degrees = rand(hole.min_kick_degrees, hole.max_kick_degrees);
+						let kick_radians = kick_degrees * Math.PI/180;
+						let xVelocity = hole.kick_velocity * Math.cos(kick_radians);
+						let yVelocity = hole.kick_velocity * Math.sin(kick_radians);
+						Matter.Body.setVelocity(pinball, { x: xVelocity, y: yVelocity});
+						world.gravity.y = GRAVITY;
+						setTimeout(function () {
+							hole.collisionFilter.group = undefined;
+						}, 100);
+					}, hole.hold_ms);
+				}
+			});
+		});
+
 		// regulate pinball
 		Matter.Events.on(engine, 'beforeUpdate', function(event) {
 			// bumpers can quickly multiply velocity, so keep that in check
@@ -444,7 +471,6 @@
 		}
 	}
 
-
 	function pingHole(hole) {
 		let incBonus = hole.bonus;
 		updateBonus(currentBonus + incBonus);
@@ -552,10 +578,16 @@
 			label: 'hole',
 			isStatic: true,
 			bonus: -20,
+			min_kick_degrees: 90-60,
+			max_kick_degrees: 90+60,
+			kick_velocity: 15,
+			hold_ms: 500,
 			render: {
 				fillStyle: '#fff'
 			}
 		});
+
+		hole.render.fillStyle = COLOR.HOLE;
 
 		return hole;
 	}
