@@ -5,8 +5,8 @@
 }
 
 html, body {
-	height: 100%;
-	overflow: hidden;
+    height: 100%;
+    overflow: hidden;
 }
 
 body {
@@ -20,9 +20,15 @@ body {
 	text-transform: uppercase;
 }
 
+.sizer {
+	width: 100vw;
+	height: 100vh;
+}
+
 .container {
-	position: relative;
-	line-height: 0;
+    position: relative;
+    line-height: 0;
+    transform-origin: top left; /* Ensure scaling is relative to the top-left corner */
 }
 
 .score {
@@ -99,18 +105,4 @@ canvas {
 	overflow: hidden;
 	border-radius: 5px;
 	box-shadow: 0 5px 25px rgba(0, 0, 0, 0.75);
-}
-
-/* responsive scaling, because pinball tables are tall */
-@media (min-height: 0px) {
-	.container { transform: scale(0.25); }
-}
-@media (min-height: 400px) {
-	.container { transform: scale(0.5); }
-}
-@media (min-height: 600px) {
-	.container { transform: scale(0.75); }
-}
-@media (min-height: 800px) {
-	.container { transform: scale(1); }
 }
