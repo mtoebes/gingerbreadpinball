@@ -9,8 +9,8 @@
 		DROP_RIGHT: '50 0 68 0 68 150 50 150 0 100 50 0',
 		APRON_LEFT: '0 0 L 0 191 L 210 192 L 210 121',
 		APRON_RIGHT: '210 0 L 0 121 L 0 191 L 210 191',
-		FLIPPER_EDGE_RIGHT : '125 0 L 126 260 L 45 190 L 0 70',
-		FLIPPER_EDGE_LEFT : '0 0 L 0 260 L 80 190 L 125 70'
+		FLIPPER_EDGE_RIGHT: '125 0 L 126 260 L 45 190 L 0 70',
+		FLIPPER_EDGE_LEFT: '0 0 L 0 260 L 80 190 L 125 70'
 	};
 	const COLOR = {
 		BACKGROUND: '#212529',
@@ -18,13 +18,13 @@
 		INNER: '#15aabf',
 		BUMPER: '#fab005',
 		BUMPER_LIT: '#fff3bf',
-		BUMPER_FLASH : '#dee2e6',
+		BUMPER_FLASH: '#dee2e6',
 		TARGET: '#fab005',
 		TARGET_LIT: '#dee2e6',
 		PADDLE: '#e64980',
 		HOLE: '#67c330',
 		PINBALL: '#dee2e6',
-		TRAIN : '#165ea0'
+		TRAIN: '#165ea0'
 	};
 	const GRAVITY = 0.75;
 	const WIREFRAMES = false;
@@ -62,7 +62,7 @@
 		// world (shared)
 		world = engine.world;
 		world.bounds = {
-			min: { x: 0, y: 0},
+			min: { x: 0, y: 0 },
 			max: { x: 500, y: 694 }
 		};
 		world.gravity.y = GRAVITY; // simulate rolling on a slanted table
@@ -114,16 +114,16 @@
 		];
 
 		holes = [
-			hole(56+100, 405, 5),
-			hole(395-100, 405, 5),
+			hole(56 + 100, 405, 5),
+			hole(395 - 100, 405, 5),
 			// hole(425, 125, 15)
 		];
 
 		let trains = [
-			trainCar(75,140,70,40,-60 * Math.PI/180),
-			trainCar(135,75,70,40,-35 * Math.PI/180),
-			trainCar(225,40,70,40,0),
-			trainCar(315,55,70,40,25 * Math.PI/180),
+			trainCar(75, 140, 70, 40, -60 * Math.PI / 180),
+			trainCar(135, 75, 70, 40, -35 * Math.PI / 180),
+			trainCar(225, 40, 70, 40, 0),
+			trainCar(315, 55, 70, 40, 25 * Math.PI / 180),
 		];
 		Matter.World.add(world, bumpers);
 		Matter.World.add(world, targets);
@@ -131,10 +131,10 @@
 		Matter.World.add(world, trains);
 		Matter.World.add(world, [
 			// table boundaries (top, bottom, left, right)
-			boundary(500/2, 7, 500, 14),
-			boundary(500/2, 694-7, 500, 14),
-			boundary(7, 694/2, 14, 694),
-			boundary(500-7, 694/2, 14, 694),
+			boundary(500 / 2, 7, 500, 14),
+			boundary(500 / 2, 694 - 7, 500, 14),
+			boundary(7, 694 / 2, 14, 694),
+			boundary(500 - 7, 694 / 2, 14, 694),
 
 			// dome
 			path(250, 76, PATHS.DOME),
@@ -273,9 +273,9 @@
 
 	function createEvents() {
 		// events for when the pinball hits stuff
-		Matter.Events.on(engine, 'collisionStart', function(event) {
+		Matter.Events.on(engine, 'collisionStart', function (event) {
 			let pairs = event.pairs;
-			pairs.forEach(function(pair) {
+			pairs.forEach(function (pair) {
 				if (pair.bodyB.label === 'pinball') {
 					switch (pair.bodyA.label) {
 						case 'reset':
@@ -295,22 +295,22 @@
 			});
 		});
 
-		Matter.Events.on(engine, 'collisionEnd', function(event) {
+		Matter.Events.on(engine, 'collisionEnd', function (event) {
 			let pairs = event.pairs;
-			pairs.forEach(function(pair) {
+			pairs.forEach(function (pair) {
 				if (pair.bodyB.label === 'pinball' && pair.bodyA.label === 'hole') {
 					let pinball = pair.bodyB;
 					let hole = pair.bodyA;
 					hole.collisionFilter.group = stopperGroup;
 					Matter.Body.setVelocity(pinball, { x: 0, y: 0 });
-					Matter.Body.setPosition(pinball, {x: hole.position.x, y: hole.position.y});
+					Matter.Body.setPosition(pinball, { x: hole.position.x, y: hole.position.y });
 					world.gravity.y = 0;
-					setTimeout(function() {
+					setTimeout(function () {
 						let kick_degrees = rand(hole.min_kick_degrees, hole.max_kick_degrees);
-						let kick_radians = kick_degrees * Math.PI/180;
+						let kick_radians = kick_degrees * Math.PI / 180;
 						let xVelocity = hole.kick_velocity * Math.cos(kick_radians);
 						let yVelocity = hole.kick_velocity * Math.sin(kick_radians);
-						Matter.Body.setVelocity(pinball, { x: xVelocity, y: yVelocity});
+						Matter.Body.setVelocity(pinball, { x: xVelocity, y: yVelocity });
 						world.gravity.y = GRAVITY;
 						setTimeout(function () {
 							hole.collisionFilter.group = undefined;
@@ -321,7 +321,7 @@
 		});
 
 		// regulate pinball
-		Matter.Events.on(engine, 'beforeUpdate', function(event) {
+		Matter.Events.on(engine, 'beforeUpdate', function (event) {
 			// bumpers can quickly multiply velocity, so keep that in check
 			Matter.Body.setVelocity(pinball, {
 				x: Math.max(Math.min(pinball.velocity.x, MAX_VELOCITY), -MAX_VELOCITY),
@@ -346,14 +346,14 @@
 		}));
 
 		// keyboard paddle events
-		$('body').on('keydown', function(e) {
+		$('body').on('keydown', function (e) {
 			if (e.which === 37) { // left arrow key
 				isLeftPaddleUp = true;
 			} else if (e.which === 39) { // right arrow key
 				isRightPaddleUp = true;
 			}
 		});
-		$('body').on('keyup', function(e) {
+		$('body').on('keyup', function (e) {
 			if (e.which === 37) { // left arrow key
 				isLeftPaddleUp = false;
 			} else if (e.which === 39) { // right arrow key
@@ -363,21 +363,21 @@
 
 		// click/tap paddle events
 		$('.left-trigger')
-			.on('mousedown touchstart', function(e) {
+			.on('mousedown touchstart', function (e) {
 				isLeftPaddleUp = true;
 			})
-			.on('mouseup touchend', function(e) {
+			.on('mouseup touchend', function (e) {
 				isLeftPaddleUp = false;
 			});
 		$('.right-trigger')
-			.on('mousedown touchstart', function(e) {
+			.on('mousedown touchstart', function (e) {
 				isRightPaddleUp = true;
 			})
-			.on('mouseup touchend', function(e) {
+			.on('mouseup touchend', function (e) {
 				isRightPaddleUp = false;
 			});
 		$('.reset')
-			.on('mouseup touchend', function(e) {
+			.on('mouseup touchend', function (e) {
 				launchPinball();
 			});
 	}
@@ -409,7 +409,7 @@
 
 		// flash color
 		bumper.render.fillStyle = COLOR.BUMPER_FLASH;
-		setTimeout(function() {
+		setTimeout(function () {
 			refreshBumperColor(bumper)
 		}, 100);
 	}
@@ -524,7 +524,7 @@
 				visible: true,
 				fillStyle: COLOR.HOLE
 			}
-	});
+		});
 	}
 
 	// wall segments
@@ -573,8 +573,8 @@
 			is_active: false,
 			inactive_points: 20,
 			active_points: 0,
-			inactive_bonus : 10,
-			active_bonus : 0
+			inactive_bonus: 10,
+			active_bonus: 0
 		});
 		target.restitution = BUMPER_BOUNCE;
 		return target;
@@ -586,8 +586,8 @@
 			label: 'hole',
 			isStatic: true,
 			bonus: -20,
-			min_kick_degrees: 90-60,
-			max_kick_degrees: 90+60,
+			min_kick_degrees: 90 - 60,
+			max_kick_degrees: 90 + 60,
 			kick_velocity: 15,
 			hold_ms: 500,
 			render: {
@@ -616,7 +616,7 @@
 			plugin: {
 				attractors: [
 					// stopper is always a, other body is b
-					function(a, b) {
+					function (a, b) {
 						if (b.label === attracteeLabel) {
 							let isPaddleUp = (side === 'left') ? isLeftPaddleUp : isRightPaddleUp;
 							let isPullingUp = (position === 'up' && isPaddleUp);
@@ -646,4 +646,38 @@
 	}
 
 	window.addEventListener('load', load, false);
+
+	function scaleContainer() {
+		const container = document.querySelector('.container');
+		const nominalWidth = 500; // Nominal canvas width
+		const nominalHeight = 694; // Nominal canvas height
+
+		// Get the available window dimensions
+		const sizer = document.querySelector('.sizer');
+		const sizerRect = sizer.getBoundingClientRect();
+
+		const windowWidth = sizerRect.width;
+		const windowHeight = sizerRect.height;
+
+		// Calculate the scale factor
+		const scale = Math.min(windowWidth / nominalWidth, windowHeight / nominalHeight);
+		console.log('Scale=' + scale + ' ' + windowWidth + '/' + nominalWidth + ' ' + windowHeight + '/' + nominalHeight)
+
+		// Apply the scale transformation
+		container.style.transform = `scale(${scale})`;
+
+		// Center the container
+		container.style.left = `${(windowWidth - nominalWidth * scale) / 2}px`;
+		container.style.top = `${(windowHeight - nominalHeight * scale) / 2}px`;
+		container.style.position = 'absolute';
+	}
+
+
+	// Call resizeCanvas on window resize
+	window.addEventListener('resize', scaleContainer);
+
+	// Initial call to set the canvas size
+	window.addEventListener('load', () => {
+		scaleContainer();
+	});
 })();
