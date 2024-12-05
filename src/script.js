@@ -113,12 +113,13 @@
 		];
 
 		holes = [
-			hole(100, 450, 150)
-		]
+			hole(56+100, 405, 12),
+			hole(395-100, 405, 12)
+		];
 
 		Matter.World.add(world, bumpers);
 		Matter.World.add(world, targets);
-		// Matter.World.add(world, holes);
+		Matter.World.add(world, holes);
 		Matter.World.add(world, [
 			// table boundaries (top, bottom, left, right)
 			boundary(500/2, 7, 500, 14),
@@ -278,7 +279,8 @@
 							pingTarget(pair.bodyA);
 							break;
 						case 'hole':
-							break
+							pingHole(pair.bodyA);
+							break;
 					}
 				}
 			});
@@ -442,6 +444,12 @@
 		}
 	}
 
+
+	function pingHole(hole) {
+		let incBonus = hole.bonus;
+		updateBonus(currentBonus + incBonus);
+	}
+
 	function updateScore(newCurrentScore) {
 		currentScore = newCurrentScore;
 		$currentScore.text(currentScore);
@@ -543,6 +551,7 @@
 		let hole = Matter.Bodies.circle(x, y, radius, {
 			label: 'hole',
 			isStatic: true,
+			bonus: -20,
 			render: {
 				fillStyle: '#fff'
 			}
