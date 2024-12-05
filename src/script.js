@@ -23,7 +23,8 @@
 		TARGET_LIT: '#dee2e6',
 		PADDLE: '#e64980',
 		HOLE: '#67c330',
-		PINBALL: '#dee2e6'
+		PINBALL: '#dee2e6',
+		TRAIN : '#165ea0'
 	};
 	const GRAVITY = 0.75;
 	const WIREFRAMES = false;
@@ -103,14 +104,13 @@
 		];
 
 		targets = [
-			target(120, 110, 5),
-			target(145, 95, 5),
-			target(180, 80, 5),
-			target(210, 75, 5),
+			target(110, 130, 5),
+			target(135, 110, 5),
+			target(175, 80, 5),
+			target(205, 70, 5),
 			target(250, 70, 5),
-			target(270, 70, 5),
-			target(290, 70, 5),
-			target(310, 70, 5)
+			target(280, 70, 5),
+			target(325, 90, 5),
 		];
 
 		holes = [
@@ -119,9 +119,16 @@
 			// hole(425, 125, 15)
 		];
 
+		let trains = [
+			trainCar(75,140,70,40,-60 * Math.PI/180),
+			trainCar(135,75,70,40,-35 * Math.PI/180),
+			trainCar(225,40,70,40,0),
+			trainCar(315,55,70,40,25 * Math.PI/180),
+		];
 		Matter.World.add(world, bumpers);
 		Matter.World.add(world, targets);
 		Matter.World.add(world, holes);
+		Matter.World.add(world, trains);
 		Matter.World.add(world, [
 			// table boundaries (top, bottom, left, right)
 			boundary(500/2, 7, 500, 14),
@@ -514,9 +521,10 @@
 			isStatic: true,
 			angle: angle,
 			render: {
-				visible: true
+				visible: true,
+				fillStyle: COLOR.HOLE
 			}
-		});
+	});
 	}
 
 	// wall segments
