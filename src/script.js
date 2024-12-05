@@ -24,11 +24,13 @@
 		PADDLE: '#e64980',
 		HOLE: '#67c330',
 		PINBALL: '#dee2e6',
-		TRAIN : '#165ea0'
+		TRAIN : '#165ea0',
+		ELF_BUMPER : '#165ea0'
 	};
 	const GRAVITY = 0.75;
 	const WIREFRAMES = false;
 	const BUMPER_BOUNCE = 1.5;
+	const ELF_BUMPER_BOUNCE = .75;
 	const PADDLE_PULL = 0.002;
 	const MAX_VELOCITY = 50;
 
@@ -130,6 +132,10 @@
 		Matter.World.add(world, holes);
 		Matter.World.add(world, trains);
 		Matter.World.add(world, [
+
+			// elf
+			elfBumper(360, 70, 20),
+
 			// table boundaries (top, bottom, left, right)
 			boundary(500/2, 7, 500, 14),
 			boundary(500/2, 694-7, 500, 14),
@@ -388,7 +394,7 @@
 		updateBonus(0);
 		setTargetsInactive();
 		Matter.Body.setPosition(pinball, { x: 470, y: 678 });
-		Matter.Body.setVelocity(pinball, { x: 0, y: -25 + rand(-2, 2) });
+		Matter.Body.setVelocity(pinball, { x: 0, y: -35 + rand(-2, 2) });
 		Matter.Body.setAngularVelocity(pinball, 0);
 	}
 
@@ -522,7 +528,7 @@
 			angle: angle,
 			render: {
 				visible: true,
-				fillStyle: COLOR.HOLE
+				fillStyle: COLOR.TRAIN
 			}
 	});
 	}
@@ -566,6 +572,20 @@
 		return bumper;
 	}
 
+
+	function elfBumper(x, y, radius) {
+		let bumper = Matter.Bodies.circle(x, y, radius, {
+			label: 'elfbumper',
+			isStatic: true,
+			render: {
+				fillStyle: COLOR.ELF_BUMPER
+			}
+
+		});
+		bumper.restitution = ELF_BUMPER_BOUNCE;
+		return bumper;
+	}
+
 	function target(x, y, radius) {
 		let target = Matter.Bodies.circle(x, y, radius, {
 			label: 'target',
@@ -591,11 +611,9 @@
 			kick_velocity: 15,
 			hold_ms: 500,
 			render: {
-				fillStyle: '#fff'
+				fillStyle: COLOR.HOLE
 			}
 		});
-
-		hole.render.fillStyle = COLOR.HOLE;
 
 		return hole;
 	}
