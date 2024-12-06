@@ -9,8 +9,8 @@
 		DROP_RIGHT: '50 0 68 0 68 150 50 150 0 100 50 0',
 		APRON_LEFT: '0 0 L 0 127 L 196 127 L 196 113 L 0 0',
 		APRON_RIGHT: '0 0 L 0 127 L -196 127 L -196 113 L 0 0',
-		FLIPPER_EDGE_RIGHT: '106 0 L 103 260 L 43 170 L 0 66',
-		FLIPPER_EDGE_LEFT: '0 0 L 0 260 L 60 170 L 106 66'
+		FLIPPER_EDGE_LEFT: '0 0 L 0 270 L 60 180 L 120 68',
+		FLIPPER_EDGE_RIGHT: '120 0 L 120 260 L 60 180 L 0 68',
 	};
 	const COLOR = {
 		BACKGROUND: '#212529',
@@ -159,8 +159,8 @@
 			path(86, 607, PATHS.APRON_LEFT),
 			path(372, 607, PATHS.APRON_RIGHT),
 
-			path(55, 600, PATHS.FLIPPER_EDGE_LEFT),
-			path(405, 598, PATHS.FLIPPER_EDGE_RIGHT),
+			path(50, 600, PATHS.FLIPPER_EDGE_LEFT),
+			path(410, 600, PATHS.FLIPPER_EDGE_RIGHT),
 
 			// reset zones (center, right)
 			reset(226, 30),
@@ -178,9 +178,9 @@
 
 		// these bodies keep paddle swings contained, but allow the ball to pass through
 		leftUpStopper = stopper(leftHingeX + flipperOffsetX-20, 470, 'left', 'up');
-		leftDownStopper = stopper(leftHingeX + flipperOffsetX, 640, 'left', 'down');
+		leftDownStopper = stopper(leftHingeX + flipperOffsetX, 650, 'left', 'down');
 		rightUpStopper = stopper(rightHingeX - flipperOffsetX+20, 470, 'right', 'up');
-		rightDownStopper = stopper(rightHingeX - flipperOffsetX, 640, 'right', 'down');
+		rightDownStopper = stopper(rightHingeX - flipperOffsetX, 650, 'right', 'down');
 		Matter.World.add(world, [leftUpStopper, leftDownStopper, rightUpStopper, rightDownStopper]);
 
 		// this group lets paddle pieces overlap each other
