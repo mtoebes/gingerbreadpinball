@@ -7,25 +7,25 @@
 		DOME: 'M 0 0 L 0 261 L 15 261 L 17 235 L 19 207 L 26 179 L 36 151 L 52 123 L 71 97 L 99 68 L 126 48 L 154 33 L 182 23 L 210 16 L 238 13 L 265 13 L 293 16 L 321 23 L 349 33 L 376 48 L 404 68 L 432 97 L 451 123 L 466 151 L 477 179 L 484 207 L 486 235 L 486 261 L 500 261 L 500 0 L 0 0',
 		DROP_LEFT: '0 0 20 0 70 100 20 150 0 150 0 0',
 		DROP_RIGHT: '50 0 68 0 68 150 50 150 0 100 50 0',
-		APRON_LEFT: '0 0 L 0 191 L 210 192 L 210 121',
-		APRON_RIGHT: '210 0 L 0 121 L 0 191 L 210 191',
-		FLIPPER_EDGE_RIGHT: '125 0 L 126 260 L 45 190 L 0 70',
-		FLIPPER_EDGE_LEFT: '0 0 L 0 260 L 80 190 L 125 70'
+		APRON_LEFT: '0 0 L 0 127 L 196 127 L 196 113 L 0 0',
+		APRON_RIGHT: '0 0 L 0 127 L -196 127 L -196 113 L 0 0',
+		FLIPPER_EDGE_RIGHT: '106 0 L 103 260 L 43 170 L 0 66',
+		FLIPPER_EDGE_LEFT: '0 0 L 0 260 L 60 170 L 106 66'
 	};
 	const COLOR = {
 		BACKGROUND: '#212529',
 		OUTER: '#495057',
 		INNER: '#15aabf',
-		BUMPER: '#fab005',
-		BUMPER_LIT: '#fff3bf',
-		BUMPER_FLASH: '#dee2e6',
-		TARGET: '#fab005',
-		TARGET_LIT: '#dee2e6',
-		PADDLE: '#e64980',
-		HOLE: '#67c330',
-		PINBALL: '#dee2e6',
-		TRAIN : '#165ea0',
-		ELF_BUMPER : '#165ea0'
+		BUMPER: '#00000000',
+		BUMPER_LIT: '#fcff0050',
+		BUMPER_FLASH: '#ffffff50',
+		TARGET: '#212529ff',
+		TARGET_LIT: '#212529ff',
+		PADDLE: '#e64980ff',
+		HOLE: '#67c330ff',
+		PINBALL: '#989897ff',
+		TRAIN : '#165ea0ff',
+		ELF_BUMPER : '#165ea0ff'
 	};
 	const GRAVITY = 0.75;
 	const WIREFRAMES = false;
@@ -77,9 +77,10 @@
 				width: world.bounds.max.x,
 				height: world.bounds.max.y,
 				wireframes: WIREFRAMES,
-				background: COLOR.BACKGROUND
-			}
+				background: 'transparent'
+			},
 		});
+
 		Matter.Render.run(render);
 
 		// runner
@@ -100,43 +101,45 @@
 	function createStaticBodies() {
 
 		bumpers = [
-			bumper(134, 281, 25, 20, 10),
-			bumper(207, 169, 25, 40, 20),
-			bumper(315, 235, 25, 80, 10)
+			bumper(126, 255, 25, 20, 10),
+			bumper(213, 173, 25, 40, 20),
+			bumper(315, 255, 25, 80, 10)
 		];
 
 		targets = [
-			target(110, 130, 5),
-			target(135, 110, 5),
-			target(175, 80, 5),
-			target(205, 70, 5),
-			target(250, 70, 5),
-			target(280, 70, 5),
-			target(325, 90, 5),
+			target(65, 166, 5),
+			target(84, 106, 5),
+			target(132, 64, 5),
+			target(180, 42, 5),
+			target(240, 37, 5),
+			target(304, 37, 5),
+			target(351, 57, 5),
 		];
 
 		holes = [
-			hole(56 + 100, 405, 5),
-			hole(395 - 100, 405, 5),
+			hole(152, 394, 5),
+			hole(291, 394, 5),
 			// hole(425, 125, 15)
 		];
 
+		let trainWidth = 140;
 		let trains = [
-			trainCar(75, 140, 70, 40, -60 * Math.PI / 180),
-			trainCar(135, 75, 70, 40, -35 * Math.PI / 180),
-			trainCar(225, 40, 70, 40, 0),
-			trainCar(315, 55, 70, 40, 25 * Math.PI / 180),
+			trainCar(25, 140-30, trainWidth, 60, -90 * Math.PI / 180),
+			trainCar(97, 35, trainWidth, 60, -32 * Math.PI / 180),
+			trainCar(207, 0, trainWidth, 60, -10 * Math.PI / 180),
+			trainCar(335-20, 5, trainWidth, 60, 20 * Math.PI / 180),
 		];
 		Matter.World.add(world, bumpers);
 		Matter.World.add(world, targets);
 		Matter.World.add(world, holes);
-		Matter.World.add(world, trains);
+		// Matter.World.add(world, trains);
 		Matter.World.add(world, [
 
 			// elf
-			elfBumper(360, 70, 20),
+			// elfBumper(360, 70, 20),
 
 			// table boundaries (top, bottom, left, right)
+
 			boundary(500 / 2, 7, 500, 14),
 			boundary(500 / 2, 694 - 7, 500, 14),
 			boundary(7, 694 / 2, 14, 694),
@@ -146,18 +149,18 @@
 			path(250, 76, PATHS.DOME),
 
 			// shooter lane wall
-			wall(445, 476, 15, 435, COLOR.OUTER),
+			wall(448, 488, 15, 435, COLOR.OUTER),
 
 			// slingshots (left, right)
-			wall(56, 360, 15, 60, COLOR.INNER),
-			wall(395, 360, 15, 60, COLOR.INNER),
+			wall(56, 384, 15, 62, COLOR.INNER),
+			wall(400, 384, 15, 62, COLOR.INNER),
 
 			// aprons (left, right)
-			path(90, 622, PATHS.APRON_LEFT),
-			path(361, 622, PATHS.APRON_RIGHT),
+			path(86, 607, PATHS.APRON_LEFT),
+			path(372, 607, PATHS.APRON_RIGHT),
 
 			path(55, 600, PATHS.FLIPPER_EDGE_LEFT),
-			path(395, 600, PATHS.FLIPPER_EDGE_RIGHT),
+			path(405, 598, PATHS.FLIPPER_EDGE_RIGHT),
 
 			// reset zones (center, right)
 			reset(226, 30),
@@ -166,16 +169,18 @@
 	}
 
 	function createPaddles() {
-		let hingeY = 565;
-		let leftHingeX = 140;
-		let rightHingeX = 310;
-		let flipperOffsetX = 30;
+		let hingeY = 570;
+		let leftHingeX = 130;
+		let rightHingeX = 330;
+		let flipperOffsetX = 40;
+		let flipperLength = 110;
+		let flipperWidth = 25;
 
 		// these bodies keep paddle swings contained, but allow the ball to pass through
-		leftUpStopper = stopper(leftHingeX + flipperOffsetX, 480, 'left', 'up');
-		leftDownStopper = stopper(leftHingeX + flipperOffsetX, 635, 'left', 'down');
-		rightUpStopper = stopper(rightHingeX - flipperOffsetX, 480, 'right', 'up');
-		rightDownStopper = stopper(rightHingeX - flipperOffsetX, 635, 'right', 'down');
+		leftUpStopper = stopper(leftHingeX + flipperOffsetX-20, 470, 'left', 'up');
+		leftDownStopper = stopper(leftHingeX + flipperOffsetX, 640, 'left', 'down');
+		rightUpStopper = stopper(rightHingeX - flipperOffsetX+20, 470, 'right', 'up');
+		rightDownStopper = stopper(rightHingeX - flipperOffsetX, 640, 'right', 'down');
 		Matter.World.add(world, [leftUpStopper, leftDownStopper, rightUpStopper, rightDownStopper]);
 
 		// this group lets paddle pieces overlap each other
@@ -183,7 +188,7 @@
 
 		// Left paddle mechanism
 		let paddleLeft = {};
-		paddleLeft.paddle = Matter.Bodies.trapezoid(leftHingeX + flipperOffsetX, hingeY, 20, 80, 0.33, {
+		paddleLeft.paddle = Matter.Bodies.trapezoid(leftHingeX + flipperOffsetX, hingeY, flipperWidth, flipperLength, 0.33, {
 			label: 'paddleLeft',
 			angle: 1.67,
 			chamfer: {},
@@ -191,7 +196,7 @@
 				fillStyle: COLOR.PADDLE
 			}
 		});
-		paddleLeft.brick = Matter.Bodies.rectangle(leftHingeX + flipperOffsetX, hingeY, 20, 80, {
+		paddleLeft.brick = Matter.Bodies.rectangle(leftHingeX + flipperOffsetX, hingeY, flipperWidth, flipperLength, {
 			angle: 1.62,
 			chamfer: {},
 			render: {
@@ -223,7 +228,7 @@
 
 		// right paddle mechanism
 		let paddleRight = {};
-		paddleRight.paddle = Matter.Bodies.trapezoid(rightHingeX - flipperOffsetX, hingeY, 20, 80, 0.33, {
+		paddleRight.paddle = Matter.Bodies.trapezoid(rightHingeX - flipperOffsetX, hingeY, flipperWidth, flipperLength, 0.33, {
 			label: 'paddleRight',
 			angle: -1.67,
 			chamfer: {},
@@ -231,7 +236,7 @@
 				fillStyle: COLOR.PADDLE
 			}
 		});
-		paddleRight.brick = Matter.Bodies.rectangle(rightHingeX - flipperOffsetX, hingeY, 20, 80, {
+		paddleRight.brick = Matter.Bodies.rectangle(rightHingeX - flipperOffsetX, hingeY, flipperWidth, flipperLength, {
 			angle: -1.62,
 			chamfer: {},
 			render: {
@@ -567,6 +572,7 @@
 			inactive_points: 1,
 			active_points: activePoints,
 			isStatic: true
+
 		});
 		bumper.restitution = BUMPER_BOUNCE;
 		return bumper;

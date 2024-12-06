@@ -29,6 +29,7 @@ body {
     position: relative;
     line-height: 0;
     transform-origin: top left; /* Ensure scaling is relative to the top-left corner */
+	background-image: url("./PlayField-Game-Artwork2.png");
 }
 
 .score {
