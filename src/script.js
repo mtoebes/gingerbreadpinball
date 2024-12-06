@@ -15,6 +15,7 @@
 	const COLOR = {
 		OUTER: '#996c4bff',
 		INNER: '#996c4bff',
+		INVISIBLE: '#00000000',
 		BUMPER_INACTIVE: '#00000000',
 		BUMBER_ACTIVE: '#FFE63280',
 		BUMPER_FLASH: '#ffffff50',
@@ -172,8 +173,8 @@
 			wall(448, 488, 15, 435, COLOR.OUTER),
 
 			// slingshots (left, right)
-			wall(56, 384, 15, 62, COLOR.INNER),
-			wall(400, 384, 15, 62, COLOR.INNER),
+			wall(61, 372, 20, 69, COLOR.INVISIBLE),
+			wall(398, 382,  20, 69, COLOR.INVISIBLE),
 
 			// aprons (left, right)
 			path(86, 607, PATHS.APRON_LEFT),
