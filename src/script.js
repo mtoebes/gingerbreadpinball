@@ -13,9 +13,8 @@
 		FLIPPER_EDGE_RIGHT: '120 0 L 120 260 L 60 180 L 0 68',
 	};
 	const COLOR = {
-		BACKGROUND: '#212529',
-		OUTER: '#495057',
-		INNER: '#15aabf',
+		OUTER: '#996c4bff',
+		INNER: '#996c4bff',
 		BUMPER: '#00000000',
 		BUMPER_LIT: '#FFE63280',
 		BUMPER_FLASH: '#ffffff50',
