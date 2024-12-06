@@ -158,6 +158,7 @@
 
 			// elf
 			elfBumper(380, 55, 10),
+			elfBumper(41, 203, 25),
 
 			// table boundaries (top, bottom, left, right)
 			boundary(500 / 2, 3, 500, 14),
@@ -185,8 +186,10 @@
 			path(50, 600, PATHS.FLIPPER_EDGE_LEFT),
 			path(410, 600, PATHS.FLIPPER_EDGE_RIGHT),
 
-			 boundary(110, 665, 200, 30),
-			boundary(318, 665, 150, 30),
+			 // hacky fix for the bottom
+			boundary(110, 665, 200, 30),
+			boundary(322, 665, 150, 30),
+
 			// reset zones (center, right)
 			reset(226, 30),
 			reset(470, 33)
@@ -498,7 +501,7 @@
 	function setTargetsInactive() {
 		for (let i = 0; i < targets.length; i++) {
 			targets[i].is_active = false;
-			targets[i].collisionFilter.group = undefined;
+			//targets[i].collisionFilter.group = undefined;
 			refreshTargetColor(targets[i]);
 		}
 	}
@@ -515,7 +518,7 @@
 		}
 
 		target.is_active = true;
-		target.collisionFilter.group = stopperGroup;
+		//target.collisionFilter.group = stopperGroup;
 
 		if (areAllTargetsActive()) {
 			setTargetsInactive();
