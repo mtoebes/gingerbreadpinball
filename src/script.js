@@ -19,8 +19,8 @@
 		BUMPER_INACTIVE: '#00000000',
 		BUMBER_ACTIVE: '#FFE63280',
 		BUMPER_FLASH: '#ffffff50',
-		TARGET_INACTIVE: '#00000000',
-		TARGET_ACTIVE: '#212529ff',
+		TARGET_INACTIVE: '#FFE63280',
+		TARGET_ACTIVE: '#00000000',
 		BONUS_INACTIVE: '#00000000',
 		BONUS_ACTIVE: '#ff720990',
 		PADDLE: '#e64980ff',
@@ -127,13 +127,13 @@
 		];
 
 		targets = [
-			target(65, 166, -90 * Math.PI / 180),
-			target(84, 106, -32 * Math.PI / 180),
-			target(132, 64, -32 * Math.PI / 180),
-			target(180, 42, -10 * Math.PI / 180),
-			target(240, 37, -10 * Math.PI / 180),
-			target(304, 37, 20 * Math.PI / 180),
-			target(351, 57, 20 * Math.PI / 180),
+			target(62, 157, -90 * Math.PI / 180),
+			target(83, 96, -32 * Math.PI / 180),
+			target(123, 61, -32 * Math.PI / 180),
+			target(185, 33, -10 * Math.PI / 180),
+			target(241, 26, -10 * Math.PI / 180),
+			target(306, 29, 20 * Math.PI / 180),
+			target(346, 44, 20 * Math.PI / 180),
 		];
 
 		holes = [
@@ -166,7 +166,7 @@
 			boundary(500 - 7, 694 / 2, 14, 694),
 
 			// dome
-			path(250, 76, PATHS.DOME, COLOR.INVISIBLE),
+			path(250, 76, PATHS.DOME, COLOR.OUTER),
 
 			path(30, 30, '0 0 L 0 100 L 100 0 L 0 0'),
 			path(500-50, 30, '0 0 L 0 120 L -120 0 L 0 0'),
@@ -526,9 +526,9 @@
 
 	function refreshTargetColor(target) {
 		if (target.is_active) {
-			target.render.fillStyle = COLOR.TARGET_INACTIVE;
-		} else {
 			target.render.fillStyle = COLOR.TARGET_ACTIVE;
+		} else {
+			target.render.fillStyle = COLOR.TARGET_INACTIVE;
 		}
 	}
 
