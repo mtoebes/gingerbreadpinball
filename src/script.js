@@ -26,7 +26,9 @@
 		HOLE: '#67c33000',
 		PINBALL: '#989897ff',
 		TRAIN : '#165ea0ff',
-		ELF_BUMPER : '#165ea0ff'
+		ELF_BUMPER : '#165ea0ff',
+		PADDLE_GREEN : '#217d0d',
+		PADDLE_RED : '#c31515'
 	};
 	const GRAVITY = 0.75;
 	const WIREFRAMES = false;
@@ -206,25 +208,13 @@
 
 		// Left paddle mechanism
 		let paddleLeft = {};
-		/*
+
 		paddleLeft.paddle = Matter.Bodies.trapezoid(leftHingeX + flipperOffsetX, hingeY, flipperWidth, flipperLength, 0.33, {
 			label: 'paddleLeft',
 			angle: 1.67,
 			chamfer: {},
 			render: {
-				fillStyle: COLOR.PADDLE
-			}
-		});
-		*/
-
-		let hollyPath = "0 0 L 0 25 L 100 25 L 100 0 L 0 0";
-		paddleLeft.paddle = Matter.Bodies.fromVertices(leftHingeX + flipperOffsetX, hingeY, Matter.Vertices.fromPath(hollyPath), {
-			render: {
-				fillStyle: "#50C878ff",
-
-				// add stroke and line width to fill in slight gaps between fragments
-				strokeStyle: "#50C878ff",
-				lineWidth: 1
+				fillStyle: COLOR.PADDLE_GREEN
 			}
 		});
 
@@ -253,7 +243,10 @@
 			pointA: { x: -flipperOffsetX, y: -3 },
 			bodyB: paddleLeft.hinge,
 			length: 0,
-			stiffness: 0
+			stiffness: 0,
+			render: {
+				visible: false
+			}
 		});
 		Matter.World.add(world, [paddleLeft.comp, paddleLeft.hinge, paddleLeft.con]);
 		Matter.Body.rotate(paddleLeft.comp, 0.57, { x: leftHingeX, y: hingeY });
@@ -265,7 +258,7 @@
 			angle: -1.67,
 			chamfer: {},
 			render: {
-				fillStyle: COLOR.PADDLE
+				fillStyle: COLOR.PADDLE_GREEN
 			}
 		});
 		paddleRight.brick = Matter.Bodies.rectangle(rightHingeX - flipperOffsetX, hingeY, flipperWidth, flipperLength, {
@@ -293,10 +286,23 @@
 			pointA: { x: flipperOffsetX, y: -3 },
 			bodyB: paddleRight.hinge,
 			length: 0,
-			stiffness: 0
+			stiffness: 0,
+			render: {
+				visible: false
+			}
 		});
 		Matter.World.add(world, [paddleRight.comp, paddleRight.hinge, paddleRight.con]);
 		Matter.Body.rotate(paddleRight.comp, -0.57, { x: rightHingeX, y: hingeY });
+
+
+		Matter.World.add(world, [
+			holly_berry(leftHingeX, hingeY),
+			holly_berry(leftHingeX-11, hingeY-11),
+			holly_berry(leftHingeX-14, hingeY+5),
+			holly_berry(rightHingeX, hingeY),
+			holly_berry(rightHingeX+11, hingeY-11),
+			holly_berry(rightHingeX+14, hingeY+5)]);
+
 	}
 
 	function createPinball() {
@@ -614,6 +620,19 @@
 			collisionFilter: {
 				group: -1,
 				mask: 0
+			}
+		});
+	}
+
+	function holly_berry(x, y) {
+		return Matter.Bodies.circle(x, y, 8, {
+			label: 'bonus_tracker',
+			isStatic: true,
+			collisionFilter: {
+				group: -1,
+				mask: 0
+			}, render: {
+				fillStyle: COLOR.PADDLE_RED
 			}
 		});
 	}
