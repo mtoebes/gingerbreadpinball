@@ -206,6 +206,7 @@
 
 		// Left paddle mechanism
 		let paddleLeft = {};
+		/*
 		paddleLeft.paddle = Matter.Bodies.trapezoid(leftHingeX + flipperOffsetX, hingeY, flipperWidth, flipperLength, 0.33, {
 			label: 'paddleLeft',
 			angle: 1.67,
@@ -214,6 +215,19 @@
 				fillStyle: COLOR.PADDLE
 			}
 		});
+		*/
+
+		let hollyPath = "0 0 L 0 25 L 100 25 L 100 0 L 0 0";
+		paddleLeft.paddle = Matter.Bodies.fromVertices(leftHingeX + flipperOffsetX, hingeY, Matter.Vertices.fromPath(hollyPath), {
+			render: {
+				fillStyle: "#50C878ff",
+
+				// add stroke and line width to fill in slight gaps between fragments
+				strokeStyle: "#50C878ff",
+				lineWidth: 1
+			}
+		});
+
 		paddleLeft.brick = Matter.Bodies.rectangle(leftHingeX + flipperOffsetX, hingeY, flipperWidth, flipperLength, {
 			angle: 1.62,
 			chamfer: {},
