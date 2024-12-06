@@ -166,7 +166,7 @@
 			boundary(500 - 7, 694 / 2, 14, 694),
 
 			// dome
-			path(250, 76, PATHS.DOME, COLOR.OUTER),
+			path(250, 76, PATHS.DOME, COLOR.INVISIBLE),
 
 			path(30, 30, '0 0 L 0 100 L 100 0 L 0 0'),
 			path(500-50, 30, '0 0 L 0 120 L -120 0 L 0 0'),
