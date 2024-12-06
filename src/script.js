@@ -25,10 +25,10 @@
 		PADDLE: '#e64980ff',
 		HOLE: '#67c33000',
 		PINBALL: '#989897ff',
-		TRAIN : '#165ea0ff',
-		ELF_BUMPER : '#165ea0ff',
-		PADDLE_GREEN : '#217d0d',
-		PADDLE_RED : '#c31515'
+		TRAIN: '#165ea0ff',
+		ELF_BUMPER: '#165ea0ff',
+		PADDLE_GREEN: '#217d0d',
+		PADDLE_RED: '#c31515'
 	};
 	const GRAVITY = 0.75;
 	const WIREFRAMES = false;
@@ -112,7 +112,7 @@
 
 
 		bonus_trackers = [
-			bonus_tracker(222,542),
+			bonus_tracker(222, 542),
 			bonus_tracker(222, 510),
 			bonus_tracker(222, 480),
 			bonus_tracker(222, 450),
@@ -143,10 +143,10 @@
 
 		let trainWidth = 140;
 		let trains = [
-			trainCar(25, 140-30, trainWidth, 60, -90 * Math.PI / 180),
+			trainCar(25, 140 - 30, trainWidth, 60, -90 * Math.PI / 180),
 			trainCar(97, 35, trainWidth, 60, -32 * Math.PI / 180),
 			trainCar(207, 0, trainWidth, 60, -10 * Math.PI / 180),
-			trainCar(335-20, 5, trainWidth, 60, 20 * Math.PI / 180),
+			trainCar(335 - 20, 5, trainWidth, 60, 20 * Math.PI / 180),
 		];
 		Matter.World.add(world, bumpers);
 		Matter.World.add(world, targets);
@@ -156,7 +156,7 @@
 		Matter.World.add(world, [
 
 			// elf
-			 elfBumper(380, 55, 10),
+			elfBumper(380, 55, 10),
 
 			// table boundaries (top, bottom, left, right)
 
@@ -188,6 +188,7 @@
 		]);
 	}
 
+
 	function createPaddles() {
 		let hingeY = 570;
 		let leftHingeX = 130;
@@ -197,15 +198,14 @@
 		let flipperWidth = 25;
 
 		// these bodies keep paddle swings contained, but allow the ball to pass through
-		leftUpStopper = stopper(leftHingeX + flipperOffsetX-20, 470, 'left', 'up');
+		leftUpStopper = stopper(leftHingeX + flipperOffsetX - 20, 470, 'left', 'up');
 		leftDownStopper = stopper(leftHingeX + flipperOffsetX, 650, 'left', 'down');
-		rightUpStopper = stopper(rightHingeX - flipperOffsetX+20, 470, 'right', 'up');
+		rightUpStopper = stopper(rightHingeX - flipperOffsetX + 20, 470, 'right', 'up');
 		rightDownStopper = stopper(rightHingeX - flipperOffsetX, 650, 'right', 'down');
 		Matter.World.add(world, [leftUpStopper, leftDownStopper, rightUpStopper, rightDownStopper]);
 
 		// this group lets paddle pieces overlap each other
 		let paddleGroup = Matter.Body.nextGroup(true);
-
 		// Left paddle mechanism
 		let paddleLeft = {};
 
@@ -297,11 +297,11 @@
 
 		Matter.World.add(world, [
 			holly_berry(leftHingeX, hingeY),
-			holly_berry(leftHingeX-11, hingeY-11),
-			holly_berry(leftHingeX-14, hingeY+5),
+			holly_berry(leftHingeX - 11, hingeY - 11),
+			holly_berry(leftHingeX - 14, hingeY + 5),
 			holly_berry(rightHingeX, hingeY),
-			holly_berry(rightHingeX+11, hingeY-11),
-			holly_berry(rightHingeX+14, hingeY+5)]);
+			holly_berry(rightHingeX + 11, hingeY - 11),
+			holly_berry(rightHingeX + 14, hingeY + 5)]);
 
 	}
 
@@ -547,7 +547,7 @@
 	}
 
 	function updateBonus(newCurrentBonus) {
-		let activeBonusIndex = newCurrentBonus/10 -1 ;
+		let activeBonusIndex = newCurrentBonus / 10 - 1;
 		for (let i = 0; i < bonus_trackers.length; i++) {
 			if (i === activeBonusIndex) {
 				bonus_trackers[i].render.fillStyle = COLOR.BONUS_ACTIVE;
