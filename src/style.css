@@ -14,7 +14,7 @@ body {
 	justify-content: center;
 	align-items: center;
 	margin: 0;
-	color: #dee2e6;
+	color: orange;
 	background-color: #212529;
 	font-family: 'Hind', sans-serif;
 	text-transform: uppercase;
@@ -76,10 +76,12 @@ body {
 
 .left-trigger {
 	left: 10px;
+	background-color: red;
 }
 
 .right-trigger {
 	right: 60px;
+	background-color: green;
 }
 
 .reset {
