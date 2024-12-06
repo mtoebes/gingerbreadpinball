@@ -160,14 +160,16 @@
 			elfBumper(380, 55, 10),
 
 			// table boundaries (top, bottom, left, right)
-
-			boundary(500 / 2, 7, 500, 14),
+			boundary(500 / 2, 3, 500, 14),
 			boundary(500 / 2, 694 - 7, 500, 14),
 			boundary(7, 694 / 2, 14, 694),
 			boundary(500 - 7, 694 / 2, 14, 694),
 
 			// dome
-			path(250, 76, PATHS.DOME),
+			path(250, 76, PATHS.DOME, COLOR.INVISIBLE),
+
+			path(30, 30, '0 0 L 0 100 L 100 0 L 0 0'),
+			path(500-50, 30, '0 0 L 0 120 L -120 0 L 0 0'),
 
 			// shooter lane wall
 			wall(448, 488, 15, 435, COLOR.OUTER),
@@ -599,16 +601,16 @@
 		});
 	}
 
-	// bodies created from SVG paths
-	function path(x, y, path) {
+
+	function path(x, y, path, color=COLOR.OUTER) {
 		let vertices = Matter.Vertices.fromPath(path);
 		return Matter.Bodies.fromVertices(x, y, vertices, {
 			isStatic: true,
 			render: {
-				fillStyle: COLOR.OUTER,
+				fillStyle: color,
 
 				// add stroke and line width to fill in slight gaps between fragments
-				strokeStyle: COLOR.OUTER,
+				strokeStyle: color,
 				lineWidth: 1
 			}
 		});
