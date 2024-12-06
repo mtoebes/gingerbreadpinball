@@ -21,7 +21,7 @@
 		TARGET_INACTIVE: '#00000000',
 		TARGET_ACTIVE: '#212529ff',
 		PADDLE: '#e64980ff',
-		HOLE: '#67c330ff',
+		HOLE: '#67c33000',
 		PINBALL: '#989897ff',
 		TRAIN : '#165ea0ff',
 		ELF_BUMPER : '#165ea0ff'
