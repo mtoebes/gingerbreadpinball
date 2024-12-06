@@ -19,8 +19,8 @@
 		BUMPER: '#00000000',
 		BUMPER_LIT: '#FFE63280',
 		BUMPER_FLASH: '#ffffff50',
-		TARGET: '#00000000',
-		TARGET_LIT: '#212529ff',
+		TARGET_INACTIVE: '#00000000',
+		TARGET_ACTIVE: '#212529ff',
 		PADDLE: '#e64980ff',
 		HOLE: '#67c330ff',
 		PINBALL: '#989897ff',
@@ -173,7 +173,7 @@
 		let leftHingeX = 130;
 		let rightHingeX = 330;
 		let flipperOffsetX = 40;
-		let flipperLength = 110;
+		let flipperLength = 100;
 		let flipperWidth = 25;
 
 		// these bodies keep paddle swings contained, but allow the ball to pass through
@@ -455,6 +455,7 @@
 	function setTargetsInactive() {
 		for (let i = 0; i < targets.length; i++) {
 			targets[i].is_active = false;
+			targets[i].collisionFilter.group = undefined;
 			refreshTargetColor(targets[i]);
 		}
 	}
@@ -471,6 +472,7 @@
 		}
 
 		target.is_active = true;
+		target.collisionFilter.group = stopperGroup;
 
 		if (areAllTargetsActive()) {
 			setTargetsInactive();
@@ -483,9 +485,9 @@
 
 	function refreshTargetColor(target) {
 		if (target.is_active) {
-			target.render.fillStyle = COLOR.TARGET;
+			target.render.fillStyle = COLOR.TARGET_INACTIVE;
 		} else {
-			target.render.fillStyle = COLOR.TARGET_LIT;
+			target.render.fillStyle = COLOR.TARGET_ACTIVE;
 		}
 	}
 
