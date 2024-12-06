@@ -185,6 +185,8 @@
 			path(50, 600, PATHS.FLIPPER_EDGE_LEFT),
 			path(410, 600, PATHS.FLIPPER_EDGE_RIGHT),
 
+			 boundary(110, 665, 200, 30),
+			boundary(318, 665, 150, 30),
 			// reset zones (center, right)
 			reset(226, 30),
 			reset(470, 33)
