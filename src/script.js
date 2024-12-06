@@ -15,11 +15,13 @@
 	const COLOR = {
 		OUTER: '#996c4bff',
 		INNER: '#996c4bff',
-		BUMPER: '#00000000',
-		BUMPER_LIT: '#FFE63280',
+		BUMPER_INACTIVE: '#00000000',
+		BUMBER_ACTIVE: '#FFE63280',
 		BUMPER_FLASH: '#ffffff50',
 		TARGET_INACTIVE: '#00000000',
 		TARGET_ACTIVE: '#212529ff',
+		BONUS_INACTIVE: '#00000000',
+		BONUS_ACTIVE: '#ff720990',
 		PADDLE: '#e64980ff',
 		HOLE: '#67c33000',
 		PINBALL: '#989897ff',
@@ -35,19 +37,19 @@
 
 	// score elements
 	let $currentScore = $('.current-score span');
-	let $currentBonus = $('.current-bonus span');
 	let $highScore = $('.high-score span');
 
 	// shared variables
 	let currentScore, highScore;
 	let currentBonus = 0;
-	let engine, world, render, pinball, stopperGroup;
+	let engine, world, render, pinball, stopperGroup, bonusGroup;
 	let leftPaddle, leftUpStopper, leftDownStopper, isLeftPaddleUp;
 	let rightPaddle, rightUpStopper, rightDownStopper, isRightPaddleUp;
 
 	let targets = [];
 	let bumpers = [];
 	let holes = [];
+	let bonus_trackers = [];
 	function load() {
 		init();
 		createStaticBodies();
@@ -88,6 +90,7 @@
 
 		// used for collision filtering on various bodies
 		stopperGroup = Matter.Body.nextGroup(true);
+		bonusGroup = Matter.Body.nextGroup(true);
 
 		// starting values
 		currentScore = 0;
@@ -103,6 +106,21 @@
 			bumper(126, 255, 25, 20, 10),
 			bumper(213, 173, 25, 40, 20),
 			bumper(315, 255, 25, 80, 10)
+		];
+
+
+		bonus_trackers = [
+			bonus_tracker(222,542),
+			bonus_tracker(222, 510),
+			bonus_tracker(222, 480),
+			bonus_tracker(222, 450),
+			bonus_tracker(222, 420),
+			bonus_tracker(222, 390),
+			bonus_tracker(222, 358),
+			bonus_tracker(222, 328),
+			bonus_tracker(222, 296),
+			bonus_tracker(222, 232)
+
 		];
 
 		targets = [
@@ -131,6 +149,7 @@
 		Matter.World.add(world, bumpers);
 		Matter.World.add(world, targets);
 		Matter.World.add(world, holes);
+		Matter.World.add(world, bonus_trackers);
 		// Matter.World.add(world, trains);
 		Matter.World.add(world, [
 
@@ -432,9 +451,9 @@
 
 	function refreshBumperColor(bumper) {
 		if (isBumperActive(bumper)) {
-			bumper.render.fillStyle = COLOR.BUMPER_LIT;
+			bumper.render.fillStyle = COLOR.BUMBER_ACTIVE;
 		} else {
-			bumper.render.fillStyle = COLOR.BUMPER;
+			bumper.render.fillStyle = COLOR.BUMPER_INACTIVE;
 		}
 	}
 
@@ -508,8 +527,16 @@
 	}
 
 	function updateBonus(newCurrentBonus) {
+		let activeBonusIndex = newCurrentBonus/10 -1 ;
+		for (let i = 0; i < bonus_trackers.length; i++) {
+			if (i === activeBonusIndex) {
+				bonus_trackers[i].render.fillStyle = COLOR.BONUS_ACTIVE;
+			} else {
+				bonus_trackers[i].render.fillStyle = COLOR.BONUS_INACTIVE;
+			}
+		}
+
 		currentBonus = Math.min(Math.max(0, newCurrentBonus), 100);
-		$currentBonus.text(currentBonus);
 		refreshBumperColors();
 	}
 
@@ -566,6 +593,17 @@
 		});
 	}
 
+	function bonus_tracker(x, y) {
+		return Matter.Bodies.circle(x, y, 12, {
+			label: 'bonus_tracker',
+			isStatic: true,
+			collisionFilter: {
+				group: -1,
+				mask: 0
+			}
+		});
+	}
+
 	function bumper(x, y, radius, minBonus, activePoints) {
 		let bumper = Matter.Bodies.circle(x, y, radius, {
 			label: 'bumper',
@@ -578,7 +616,6 @@
 		bumper.restitution = BUMPER_BOUNCE;
 		return bumper;
 	}
-
 
 	function elfBumper(x, y, radius) {
 		let bumper = Matter.Bodies.circle(x, y, radius, {
@@ -622,7 +659,6 @@
 		target.restitution = BUMPER_BOUNCE;
 		return target;
 	}
-
 
 	function hole(x, y, radius) {
 		let hole = Matter.Bodies.circle(x, y, radius, {
@@ -712,7 +748,6 @@
 		container.style.top = `${(windowHeight - nominalHeight * scale) / 2}px`;
 		container.style.position = 'absolute';
 	}
-
 
 	// Call resizeCanvas on window resize
 	window.addEventListener('resize', scaleContainer);
