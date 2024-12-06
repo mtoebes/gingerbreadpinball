@@ -17,9 +17,9 @@
 		OUTER: '#495057',
 		INNER: '#15aabf',
 		BUMPER: '#00000000',
-		BUMPER_LIT: '#fcff0050',
+		BUMPER_LIT: '#FFE63280',
 		BUMPER_FLASH: '#ffffff50',
-		TARGET: '#212529ff',
+		TARGET: '#00000000',
 		TARGET_LIT: '#212529ff',
 		PADDLE: '#e64980ff',
 		HOLE: '#67c330ff',
@@ -107,13 +107,13 @@
 		];
 
 		targets = [
-			target(65, 166, 5),
-			target(84, 106, 5),
-			target(132, 64, 5),
-			target(180, 42, 5),
-			target(240, 37, 5),
-			target(304, 37, 5),
-			target(351, 57, 5),
+			target(65, 166, -90 * Math.PI / 180),
+			target(84, 106, -32 * Math.PI / 180),
+			target(132, 64, -32 * Math.PI / 180),
+			target(180, 42, -10 * Math.PI / 180),
+			target(240, 37, -10 * Math.PI / 180),
+			target(304, 37, 20 * Math.PI / 180),
+			target(351, 57, 20 * Math.PI / 180),
 		];
 
 		holes = [
@@ -592,7 +592,23 @@
 		return bumper;
 	}
 
-	function target(x, y, radius) {
+	function target(x, y, angle) {
+		let target = Matter.Bodies.rectangle(x, y, 30, 20, {
+			label: 'target',
+			angle: angle,
+			chamfer: { radius: 5 },
+			isStatic: true,
+			is_active: false,
+			inactive_points: 20,
+			active_points: 0,
+			inactive_bonus: 10,
+			active_bonus: 0
+		});
+		target.restitution = BUMPER_BOUNCE;
+		return target;
+	}
+
+	function roundTarget(x, y, radius) {
 		let target = Matter.Bodies.circle(x, y, radius, {
 			label: 'target',
 			isStatic: true,
