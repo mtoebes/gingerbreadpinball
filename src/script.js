@@ -660,7 +660,7 @@
 			label: 'elfbumper',
 			isStatic: true,
 			render: {
-				fillStyle: COLOR.ELF_BUMPER
+				fillStyle: COLOR.INVISIBLE
 			}
 
 		});
