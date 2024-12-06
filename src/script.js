@@ -156,7 +156,7 @@
 		Matter.World.add(world, [
 
 			// elf
-			// elfBumper(360, 70, 20),
+			 elfBumper(380, 55, 10),
 
 			// table boundaries (top, bottom, left, right)
 
